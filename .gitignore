@@ -1,3 +1,3 @@
-./flaskenv
-./migrations
-./__pycache__
+./flaskenv/
+./migrations/
+./__pycache__/
