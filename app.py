@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 # The following code you can comment out 
 # if you want to run the application now
 # Otherwise wait until we build these models next
-from backend.models import User
+from backend.models import User, Blog
 
 
 

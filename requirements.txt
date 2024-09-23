@@ -1,0 +1,7 @@
+flask
+flask-sqlalchemy
+flask-graphql
+flask-migrate
+psycopg2-binary
+graphene
+graphene-sqlalchemy

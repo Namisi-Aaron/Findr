@@ -2,21 +2,29 @@ import graphene
 from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
-from ..models import User as UserModel
+from ..models import User as UserModel, \
+    Profile as ProfileModel, \
+    Skill as SkillModel, \
+    Blog as BlogModel
 
 class UserObject(SQLAlchemyObjectType):
    user_id = graphene.Int(source='id')
 
    class Meta:
        model = UserModel
-       interfaces = (relay.Node, )
+       interfaces = (graphene.relay.Node, )
 
-from ..models import Profile as ProfileModel
+class BlogObject(SQLAlchemyObjectType):
+   blog_id = graphene.Int(source='id')
+
+   class Meta:
+       model = BlogModel
+       interfaces = (graphene.relay.Node, )       
 
 class ProfileObject(SQLAlchemyObjectType):
    class Meta:
        model = ProfileModel
-       interface = (relay.Node, )
+       interface = (graphene.relay.Node, )
 
    skills = graphene.List(lambda: SkillObject, name=graphene.String(
    ))
@@ -30,13 +38,10 @@ class ProfileObject(SQLAlchemyObjectType):
 
        return query.all()
 
-
-from ..models import Skill as SkillModel
-
 class SkillObject(SQLAlchemyObjectType):
    class Meta:
        model = SkillModel
-       interface = (relay.Node, )
+       interface = (graphene.relay.Node, )
 
 
 class SkillInput(graphene.InputObjectType):

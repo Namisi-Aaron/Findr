@@ -3,11 +3,12 @@ from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyConnectionField
 
 from ..models import Profile as ProfileModel, \
-   User as UserModel #, \
-   #Role as RoleModel
+   User as UserModel , \
+   Blog as BlogModel
 
 from ..graphql.objects import UserObject as User, \
-   ProfileObject as Profile \
+   ProfileObject as Profile, \
+   BlogObject as Blog
 
 
 class Query(graphene.ObjectType):
@@ -24,7 +25,7 @@ class Query(graphene.ObjectType):
            query = query.filter(UserModel.email == email)
        return query.all()
 
-   all_users = SQLAlchemyConnectionField(User.connection)
+   all_users = SQLAlchemyConnectionField(User)
 
    profiles = graphene.List(
        lambda: Profile, id=graphene.Int()
@@ -37,3 +38,15 @@ class Query(graphene.ObjectType):
            query = query.filter(
                ProfileModel.id == id)
        return query.all()
+   
+   blogs = graphene.List(
+       lambda: Blog, blog=graphene.String(), blog_id=graphene.Int())
+   
+   def resolve_blogs(self, info, id=None):
+       query = Blog.get_query(info)
+
+       if id:
+           query = query.filter(
+               BlogModel.id == id)
+       return query.all()
+   
